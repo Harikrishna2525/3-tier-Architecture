@@ -289,8 +289,8 @@ Resources:
     Properties:
       DBInstanceClass: db.t3.micro
       Engine: postgres
-      MasterUsername: "{{resolve:secretsmanager:Postgress_credential:SecretString:username}}"
-      MasterUserPassword: "{{resolve:secretsmanager:Postgress_credential:SecretString:password}}"
+      MasterUsername: "{{resolve:secretsmanager:Postgress_credential_token:SecretString:username}}"
+      MasterUserPassword: "{{resolve:secretsmanager:Postgress_credential_token:SecretString:password}}"
       AllocatedStorage: 20
       VPCSecurityGroups:
         - !Ref RDSSG
