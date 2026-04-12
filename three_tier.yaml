@@ -270,6 +270,10 @@ Resources:
         DefaultCacheBehavior:
           TargetOriginId: S3Origin
           ViewerProtocolPolicy: allow-all
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
 
   # ---------------- RDS ----------------
   DBSubnetGroup:
