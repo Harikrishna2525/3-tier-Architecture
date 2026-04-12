@@ -22,9 +22,7 @@ jobs:
           aws-region: eu-north-1
 
       - name: Deploy CloudFormation stack
-        run: |
-          aws cloudformation deploy \
-            --template-file three_tier.yaml \
-            --parameter-overrides KeyName=${{ secrets.KEY_NAME }} \
-            --stack-name ThreeTierStack \
-            --capabilities CAPABILITY_NAMED_IAM
+        env:
+          STACK_NAME: ThreeTierStack
+          KEY_NAME: ${{ secrets.KEY_NAME }}
+        run: aws cloudformation deploy --template-file three_tier.yaml --stack-name $STACK_NAME --parameter-overrides KeyName=$KEY_NAME --capabilities CAPABILITY_NAMED_IAM
