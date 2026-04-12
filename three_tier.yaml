@@ -284,15 +284,15 @@ Resources:
         - !Ref PrivateDBSubnet1
         - !Ref PrivateDBSubnet2
 
-  RDS:
-    Type: AWS::RDS::DBInstance
-    Properties:
-      DBInstanceClass: db.t3.micro
-      Engine: postgres
-      MasterUsername: admin
-      MasterUserPassword: password123
-      AllocatedStorage: 20
-      VPCSecurityGroups:
-        - !Ref RDSSG
-      DBSubnetGroupName: !Ref DBSubnetGroup
-      PubliclyAccessible: false
+ RDS:
+  Type: AWS::RDS::DBInstance
+  Properties:
+    DBInstanceClass: db.t3.micro
+    Engine: postgres
+    MasterUsername: "{{resolve:secretsmanager:Postgress_credential:SecretString:username}}"
+    MasterUserPassword: "{{resolve:secretsmanager:Postgress_credential:SecretString:password}}"
+    AllocatedStorage: 20
+    VPCSecurityGroups:
+      - !Ref RDSSG
+    DBSubnetGroupName: !Ref DBSubnetGroup
+    PubliclyAccessible: false
