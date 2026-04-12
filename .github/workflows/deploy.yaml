@@ -25,5 +25,6 @@ jobs:
         run: |
           aws cloudformation deploy \
             --template-file three_tier.yaml \
+            --parameter-overrides KeyName=${{ secrets.KEY_NAME }} \
             --stack-name ThreeTierStack \
             --capabilities CAPABILITY_NAMED_IAM
