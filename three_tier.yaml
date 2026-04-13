@@ -4,6 +4,10 @@ Description: 3-Tier Architecture (Basic Setup)
 Parameters:
   KeyName:
     Type: AWS::EC2::KeyPair::KeyName
+  UbuntuAMI:
+    Type: AWS::EC2::Image::Id
+    Default: ami-080254318c2d8932f
+    Description: Ubuntu 22.04 LTS AMI ID (update per region)
 
 Resources:
 
@@ -98,6 +102,8 @@ Resources:
   # ---------------- NAT ----------------
   EIP:
     Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
 
   NAT:
     Type: AWS::EC2::NatGateway
@@ -199,6 +205,7 @@ Resources:
       Protocol: HTTP
       VpcId: !Ref VPC
       HealthCheckPath: /health
+      HealthCheckProtocol: HTTP
 
   Listener:
     Type: AWS::ElasticLoadBalancingV2::Listener
@@ -220,8 +227,8 @@ Resources:
       SecurityGroupIds:
         - !Ref EC2SG
 
-      # Ubuntu 22.04 LTS (update per region if needed)
-      ImageId: ami-080254318c2d8932f
+      # Ubuntu 22.04 LTS AMI ID
+      ImageId: !Ref UbuntuAMI
 
       UserData:
         Fn::Base64: |
@@ -251,6 +258,7 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
+      BucketName: !Sub '${AWS::StackName}-bucket-${AWS::AccountId}'
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
